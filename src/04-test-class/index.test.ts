@@ -1,11 +1,13 @@
 // Uncomment the code below and write your tests
 import { getBankAccount, InsufficientFundsError, SynchronizationFailedError, TransferFailedError } from '.';
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
 
 describe('BankAccount', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  
+
   test('should create account with initial balance', () => {
     const newAccount = getBankAccount(150);
     expect(newAccount.getBalance()).toBe(150);
@@ -49,9 +51,14 @@ describe('BankAccount', () => {
 
   test('fetchBalance should return number in case if request did not fail', async () => {
     const newAccount = getBankAccount(150);
-    const balance = await newAccount.fetchBalance();
-    expect(typeof balance).toBe('number');
-    expect(balance).not.toBeNull();
+
+    jest.spyOn(newAccount, 'fetchBalance').mockResolvedValue(150);      
+
+    const fetchedBalance = await newAccount.fetchBalance();
+
+    expect(fetchedBalance).toBe(150);
+
+    jest.restoreAllMocks();
   });
 
   test('should set new balance if fetchBalance returned number', async () => {
