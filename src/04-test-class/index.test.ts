@@ -1,6 +1,10 @@
 // Uncomment the code below and write your tests
 import { getBankAccount, InsufficientFundsError, SynchronizationFailedError, TransferFailedError } from '.';
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('BankAccount', () => {
   test('should create account with initial balance', () => {
     const newAccount = getBankAccount(150);
